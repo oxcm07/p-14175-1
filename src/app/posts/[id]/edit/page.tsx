@@ -24,20 +24,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
     const form = e.target as HTMLFormElement;
 
-    const authorInput = form.elements.namedItem("author") as HTMLInputElement;
     const titleInput = form.elements.namedItem("title") as HTMLInputElement;
     const contentTextarea = form.elements.namedItem(
       "content"
     ) as HTMLTextAreaElement;
-
-    authorInput.value = authorInput.value.trim();
-
-    if (authorInput.value.length === 0) {
-      alert("작성자를 입력해주세요.");
-      authorInput.focus();
-
-      return;
-    }
 
     titleInput.value = titleInput.value.trim();
 
@@ -58,7 +48,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     apiFetch(`/api/v1/posts/${id}`, {
       method: "PUT",
       body: JSON.stringify({
-        author: authorInput.value,
         title: titleInput.value,
         content: contentTextarea.value,
       }),
@@ -77,19 +66,16 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         <input
           className="border p-2 rounded"
           type="text"
-          name="author"
-          placeholder="작성자"
-        />
-        <input
-          className="border p-2 rounded"
-          type="text"
           name="title"
           placeholder="제목"
+          autoFocus
+          defaultValue={post.title}
         />
         <textarea
           className="border p-2 rounded"
           name="content"
           placeholder="내용"
+          defaultValue={post.content}
         />
         <button className="border p-2 rounded" type="submit">
           저장

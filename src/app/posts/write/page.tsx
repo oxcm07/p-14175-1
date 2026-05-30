@@ -11,20 +11,10 @@ export default function Page() {
 
     const form = e.currentTarget;
 
-    const authorInput = form.elements.namedItem("author") as HTMLInputElement;
     const titleInput = form.elements.namedItem("title") as HTMLInputElement;
     const contentTextarea = form.elements.namedItem(
       "content"
     ) as HTMLTextAreaElement;
-
-    authorInput.value = authorInput.value.trim();
-
-    if (authorInput.value.length === 0) {
-      alert("작성자를 입력해주세요.");
-      authorInput.focus();
-
-      return;
-    }
 
     titleInput.value = titleInput.value.trim();
 
@@ -47,7 +37,6 @@ export default function Page() {
     apiFetch(`/api/v1/posts`, {
       method: "POST",
       body: JSON.stringify({
-        author: authorInput.value,
         title: titleInput.value,
         content: contentTextarea.value,
       }),
@@ -64,12 +53,6 @@ export default function Page() {
       <h1>글쓰기</h1>
 
       <form className="flex flex-col gap-2 p-2" onSubmit={handleSubmit}>
-        <input
-          className="border p-2 rounded"
-          type="text"
-          name="author"
-          placeholder="작성자"
-        />
         <input
           className="border p-2 rounded"
           type="text"
